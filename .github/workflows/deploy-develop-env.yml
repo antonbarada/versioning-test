@@ -1,0 +1,13 @@
+name: Deploy Develop Environment
+
+on:
+  push:
+    tags:
+      - "v*.*.*-beta.*"
+
+jobs:
+  deploy:
+    name: Deploy application
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploy has been successfully finished"

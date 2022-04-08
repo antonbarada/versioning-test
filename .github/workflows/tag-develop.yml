@@ -1,0 +1,18 @@
+name: Tag Develop
+
+on:
+  pull_request:
+    branches: [develop]
+    types: [closed]
+
+jobs:
+  bump-and-tag:
+    name: Bump version and push tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+      - uses: fregante/setup-git-user@v1
+      - run: npm version --no-commit-hooks prerelease --preid beta -m "Upgrade develop to v%s"
+      - run: git push --follow-tags
