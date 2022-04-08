@@ -9,6 +9,7 @@ jobs:
   bump-and-tag:
     name: Bump version and push tag
     runs-on: ubuntu-latest
+    if: github.event.pull_request.merged == true
     steps:
       - uses: actions/checkout@v2
         with:
