@@ -1,0 +1,16 @@
+name: Tag Develop on release
+
+on: workflow_dispatch
+
+jobs:
+  bump-and-tag:
+    name: Bump version and push tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: develop
+          token: ${{ secrets.PAT }}
+      - uses: fregante/setup-git-user@v1
+      - run: npm version --no-commit-hooks preminor --preid beta -m "Upgrade develop to v%s [skip ci]"
+      - run: git push --follow-tags

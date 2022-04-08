@@ -1,0 +1,14 @@
+name: Deploy Staging Environment
+
+on:
+  push:
+    tags:
+      - "v*.*.*-rc.*"
+
+jobs:
+  deploy:
+    name: Deploy application
+    runs-on: ubuntu-latest
+    needs: build-api
+    steps:
+      - run: echo "Deploy has been successfully finished"
