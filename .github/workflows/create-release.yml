@@ -18,7 +18,7 @@ jobs:
           token: ${{ secrets.PAT }}
       - uses: fregante/setup-git-user@v1
       - run: git checkout -b release/${{ inputs.version }}
-      - run: git push
+      - run: git push origin release/${{ inputs.version }}
 
   bump-and-tag-release:
     name: Bump release version and push tag
@@ -41,5 +41,5 @@ jobs:
           ref: develop
           token: ${{ secrets.PAT }}
       - uses: fregante/setup-git-user@v1
-      - run: npm version --no-commit-hooks preminor --preid beta -m "Upgrade develop to v%s"
+      - run: npm version ${{ inputs.version }}-beta.0 --no-commit-hooks -m "Upgrade develop to v%s [skip ci]"
       - run: git push --follow-tags
