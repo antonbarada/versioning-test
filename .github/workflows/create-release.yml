@@ -1,0 +1,45 @@
+name: Create Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: Release version
+        required: true
+        type: string
+
+jobs:
+  create-branch:
+    name: Create release branch
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.PAT }}
+      - uses: fregante/setup-git-user@v1
+      - run: git checkout -b release/${{ inputs.version }}
+      - run: git push
+
+  bump-and-tag-release:
+    name: Bump release version and push tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: release/${{ inputs.version }}
+          token: ${{ secrets.PAT }}
+      - uses: fregante/setup-git-user@v1
+      - run: npm version --no-commit-hooks prerelease --preid rc -m "Upgrade release to v%s"
+      - run: git push --follow-tags
+
+  bump-and-tag-develop:
+    name: Bump develop version and push tag
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: develop
+          token: ${{ secrets.PAT }}
+      - uses: fregante/setup-git-user@v1
+      - run: npm version --no-commit-hooks preminor --preid beta -m "Upgrade develop to v%s"
+      - run: git push --follow-tags
