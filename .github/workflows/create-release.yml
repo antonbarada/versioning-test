@@ -41,5 +41,6 @@ jobs:
           ref: develop
           token: ${{ secrets.PAT }}
       - uses: fregante/setup-git-user@v1
-      - run: npm version ${{ inputs.version }}-beta.0 --no-commit-hooks -m "Upgrade develop to v%s [skip ci]"
+      - run: npm version ${{ inputs.version }}-rc.0 --no-git-tag-version
+      - run: npm version --no-commit-hooks preminor --preid beta -m "Upgrade develop to v%s [skip ci]"
       - run: git push --follow-tags
