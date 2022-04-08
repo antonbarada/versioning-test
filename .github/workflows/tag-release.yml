@@ -1,9 +1,9 @@
 name: Tag Release
 
 on:
-  pull_request:
-    branches: ["release/**"]
-    types: [closed]
+  push:
+    branches:
+      - "release/**"
 
 jobs:
   bump-and-tag:
